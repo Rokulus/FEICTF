@@ -1,0 +1,67 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='dashboard.css')}}">
+{% endblock %}
+
+{% block content %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">feictf</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{ url_for('logout') }}">Odhlásiť sa</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Vitaj, {{ user.username }}</h1>
+
+          <h2 class="sub-header">úspešné prihlásenie, gratulujem.</h2>
+          <br><br><br>
+          <form class="form-signin" method="POST">
+            <h2 class="form-signin-heading">Profil</h2>
+            Meno: {{ user.username }} <br>
+            Tím: {{ user.team }} <br> team name: {{ user.team.name }} <br> team invite hashed: {{ user.team.invite_code }} <br> <br>
+            <li>Your teammates are : <br>
+              {% for student in user.team.users %}
+                <h3>
+                    {{ student.username }}
+                </h3>
+              {% endfor %}
+              <h3> {{ user.username }} </h3>
+            </li> <br>
+            all teams: <br>
+            {{ wtf.form_field(form.name) }}
+            {{ wtf.form_field(form.invite_code) }}
+            <button class="btn btn-primary" type="submit" name="new_team" value="new_team">Vytvoriť tím</button>
+            <button class="btn btn-primary" type="submit" name="join_team" value="join_team">Pridať sa do tímu</button>
+            <button class="btn btn-primary" type="submit" name="leave_team" value="leave_team">Opustiť tím</button> <br>
+            <h1>setky timy:</h1>
+            {%for team in teams %}
+              <li>{{ team.name }}</li>
+              <li>{{ team.number_of_members }}</li>
+            {%endfor%}
+          </form>
+        </div>
+      </div>
+    </div>
+{% endblock %}

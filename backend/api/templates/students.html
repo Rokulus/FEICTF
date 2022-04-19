@@ -1,0 +1,16 @@
+
+{% block title %} 
+    {{ title }}
+{% endblock %}
+<h1>students in html</h1>
+
+<form action="/students" METHOD="POST">
+    <input type="text" placeholder="Name" name="name">
+    <input type="submit" value="Add name" class="btn btn-secondary">
+</form>
+<br>
+{% for student in students %}
+    <h3>
+        {{ student.name }}
+    </h3>
+{% endfor %}

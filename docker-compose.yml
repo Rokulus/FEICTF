@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  
+  api:
+    build:
+      context: "./backend/api"
+    restart: always  
+  
+  client:
+    build:
+      context: "./frontend/"
+    restart: always
+    ports:
+      - "3000:80"
+
+  db:
+      image: postgres
+      volumes:
+        - db_data:/var/lib/postgres
+        - ./postgres/database_init.sql:/docker-entrypoint-initdb.d/database_init.sql
+      restart: always 
+      # 5432 default port
+      
+volumes:
+    db_data: 
+   
